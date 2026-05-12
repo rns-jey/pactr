@@ -1,3 +1,9 @@
+import AppHeader from "@/components/organisms/AppHeader";
+
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <AppHeader />
+    </div>
+  );
 }
