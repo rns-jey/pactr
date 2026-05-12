@@ -16,6 +16,7 @@ model Group {
   id          Int       @id @default(autoincrement())
   name        String
   code        String    @unique
+  owner       String    @map("user_id")
   codeExpiry  DateTime
 
   createdAt   DateTime  @default(now())
