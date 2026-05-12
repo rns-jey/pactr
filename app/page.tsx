@@ -1,21 +1,9 @@
-"use client";
+import HomeClient from "@/components/organisms/HomeClient";
 
-import CreateGroupSection from "@/components/organisms/CreateGroupSection";
-import JoinGroupSection from "@/components/organisms/JoinGroupSection";
-import WelcomeSection from "@/components/organisms/WelcomeSection";
+import { auth } from "@/lib/auth/server";
 
-import { useState } from "react";
+export default async function Home() {
+  const { data: session } = await auth.getSession();
 
-export default function Home() {
-  const [action, setAction] = useState<"create" | "join" | "">("");
-
-  return (
-    <div className="p-4 min-h-screen flex flex-col items-center justify-center gap-4">
-      {action === "" && <WelcomeSection setAction={setAction} />}
-
-      {action === "create" && <CreateGroupSection setAction={setAction} />}
-
-      {action === "join" && <JoinGroupSection setAction={setAction} />}
-    </div>
-  );
+  return <HomeClient session={session} />;
 }

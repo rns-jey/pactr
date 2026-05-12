@@ -2,16 +2,25 @@ import React from "react";
 import { Card, CardContent } from "@/components/molecules/Card";
 import { UserPlus, UsersIcon } from "lucide-react";
 import { Button } from "../atoms/Button";
+import { authClient } from "@/lib/auth/client";
+import { redirect } from "next/navigation";
+import { AuthSession } from "@/lib/auth/server";
 
 interface WelcomeSectionProps {
   setAction: React.Dispatch<React.SetStateAction<"" | "create" | "join">>;
+  session: AuthSession;
 }
 
-export default function WelcomeSection({ setAction }: WelcomeSectionProps) {
+export default function WelcomeSection({ setAction, session }: WelcomeSectionProps) {
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    redirect("/sign-in");
+  };
+
   return (
     <>
       <div>
-        <h2 className="font-semibold text-center text-2xl">Welcome, User!</h2>
+        <h2 className="font-semibold text-center text-2xl">Welcome, {session.user.name}!</h2>
         <p className="text-center text-muted-foreground">Let&apos;s get you connected with an accountability partner</p>
       </div>
 
@@ -41,7 +50,7 @@ export default function WelcomeSection({ setAction }: WelcomeSectionProps) {
         </CardContent>
       </Card>
 
-      <Button variant={"outline"} className="w-full max-w-sm">
+      <Button variant={"outline"} className="w-full max-w-sm" onClick={handleSignOut}>
         Sign out
       </Button>
     </>

@@ -6,3 +6,5 @@ export const auth = createNeonAuth({
     secret: process.env.NEON_AUTH_COOKIE_SECRET!,
   },
 });
+
+export type AuthSession = Awaited<ReturnType<typeof auth.getSession>>["data"];
