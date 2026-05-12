@@ -27,7 +27,7 @@ export default function RootLayout({
       className={cn("h-full dark", "antialiased", geistSans.variable, "font-sans", jetbrainsMono.variable)}
     >
       <body className="min-h-full flex flex-col">
-        {/* <AppHeader /> */}
+        <AppHeader />
         {children}
       </body>
     </html>
