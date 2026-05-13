@@ -4,14 +4,15 @@ import { UserPlus, UsersIcon } from "lucide-react";
 import { Button } from "../atoms/Button";
 import { authClient } from "@/lib/auth/client";
 import { redirect } from "next/navigation";
-import { AuthSession } from "@/lib/auth/server";
+
+import { Profile } from "@/lib/generated/prisma/client";
 
 interface WelcomeSectionProps {
   setAction: React.Dispatch<React.SetStateAction<"" | "create" | "join">>;
-  session: AuthSession;
+  profile: Profile;
 }
 
-export default function WelcomeSection({ setAction, session }: WelcomeSectionProps) {
+export default function WelcomeSection({ setAction, profile }: WelcomeSectionProps) {
   const handleSignOut = async () => {
     await authClient.signOut();
     redirect("/sign-in");
@@ -20,7 +21,7 @@ export default function WelcomeSection({ setAction, session }: WelcomeSectionPro
   return (
     <>
       <div>
-        <h2 className="font-semibold text-center text-2xl">Welcome, {session.user.name}!</h2>
+        <h2 className="font-semibold text-center text-2xl">Welcome, {profile.name}!</h2>
         <p className="text-center text-muted-foreground">Let&apos;s get you connected with an accountability partner</p>
       </div>
 

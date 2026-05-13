@@ -1,21 +1,25 @@
+import GroupHomePage from "@/components/organisms/GroupHomePage";
 import HomeClient from "@/components/organisms/HomeClient";
 
-import { auth } from "@/lib/auth/server";
 import { prisma } from "@/lib/db";
+import { userProfile } from "@/lib/profile";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const { data: session } = await auth.getSession();
+  const profile = await userProfile();
 
-  if (!session) {
+  if (!profile) {
     redirect("/sign-in");
   }
 
-  const group = await prisma.group.findFirst({ where: { owner: session.session.userId } });
+  const group = await prisma.group.findFirst({
+    where: { ownerId: profile.userId },
+    include: { owner: true, member: true },
+  });
 
   if (group) {
-    return <div>{group.name}</div>;
+    return <GroupHomePage group={group} profile={profile} />;
   } else {
-    return <HomeClient session={session} />;
+    return <HomeClient profile={profile} />;
   }
 }
