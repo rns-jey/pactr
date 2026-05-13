@@ -39,12 +39,12 @@ export default function CreateGroupSection({ setAction }: CreateGroupSectionProp
       });
 
       if (!res.ok) {
-        throw new Error("Failed to add verb");
+        throw new Error("Failed to add group");
       }
 
-      const verb = await res.json();
+      const group = await res.json();
 
-      console.log("Verb added:", verb);
+      console.log("Group created:", group);
 
       // Optionally reset the form or provide feedback to the user here
       form.reset();
@@ -74,6 +74,7 @@ export default function CreateGroupSection({ setAction }: CreateGroupSectionProp
                     aria-invalid={fieldState.invalid}
                     placeholder="eg. Fitness Buddies, Study Group"
                     autoComplete="off"
+                    className="uppercase"
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
