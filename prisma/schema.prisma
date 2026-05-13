@@ -22,7 +22,7 @@ model Group {
   ownerId     String    @unique
 
   member      Profile?  @relation("GroupMember", fields: [memberId], references: [userId])
-  memberId    String    @unique
+  memberId    String?    @unique
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
