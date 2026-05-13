@@ -22,8 +22,6 @@ export async function POST(req: Request) {
     for (let i = 0; i < 5; i++) {
       const code = generateGroupCode();
 
-      console.log(name, profile, code, codeExpiry);
-
       try {
         const group = await prisma.group.create({
           data: {
@@ -33,8 +31,6 @@ export async function POST(req: Request) {
             codeExpiry,
           },
         });
-
-        console.log(group);
 
         return NextResponse.json({ group }, { status: 201 });
       } catch (error) {
