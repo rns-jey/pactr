@@ -28,7 +28,7 @@ export default function GroupHomePage({ group, profile }: GroupHomePageProps) {
             </div>
             <div>
               <p className="font-medium">{owner.name}</p>
-              <p className="text-sm text-muted-foreground">You</p>
+              <p className="text-sm text-muted-foreground">{owner.name === profile.name ? "You" : "Partner"}</p>
             </div>
           </div>
 
@@ -39,7 +39,7 @@ export default function GroupHomePage({ group, profile }: GroupHomePageProps) {
               </div>
               <div>
                 <p className="font-medium">{member.name}</p>
-                <p className="text-sm text-muted-foreground">You</p>
+                <p className="text-sm text-muted-foreground">{member.name === profile.name ? "You" : "Partner"}</p>
               </div>
             </div>
           ) : (

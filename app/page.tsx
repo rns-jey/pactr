@@ -13,8 +13,13 @@ export default async function Home() {
   }
 
   const group = await prisma.group.findFirst({
-    where: { ownerId: profile.userId },
-    include: { owner: true, member: true },
+    where: {
+      OR: [{ ownerId: profile.userId }, { memberId: profile.userId }],
+    },
+    include: {
+      owner: true,
+      member: true,
+    },
   });
 
   if (group) {
