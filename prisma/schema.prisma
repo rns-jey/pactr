@@ -19,7 +19,7 @@ model Group {
   code        String    @unique
   codeExpiry  DateTime
 
-  member      Profile   @relation(fields: [memberId], references: [userId])
+  member      Profile?   @relation(fields: [memberId], references: [userId])
   memberId    String    @unique
 
   createdAt   DateTime  @default(now())
