@@ -2,15 +2,15 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { customAlphabet } from "nanoid";
 import { Prisma } from "@/lib/generated/prisma/client";
-import { auth } from "@/lib/auth/server";
+import { userProfile } from "@/lib/profile";
 
 const generateGroupCode = customAlphabet("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 6);
 
 export async function POST(req: Request) {
   try {
-    const { data: session } = await auth.getSession();
+    const profile = await userProfile();
 
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!profile) return new NextResponse("Unauthorized", { status: 401 });
 
     const { name } = await req.json();
 
@@ -22,15 +22,19 @@ export async function POST(req: Request) {
     for (let i = 0; i < 5; i++) {
       const code = generateGroupCode();
 
+      console.log(name, profile, code, codeExpiry);
+
       try {
         const group = await prisma.group.create({
           data: {
             name,
-            owner: session.session.userId,
+            ownerId: profile.userId,
             code,
             codeExpiry,
           },
         });
+
+        console.log(group);
 
         return NextResponse.json({ group }, { status: 201 });
       } catch (error) {
@@ -44,7 +48,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ error: "Failed to create a group." }, { status: 500 });
   } catch (error) {
-    console.error("Error creating verb:", error);
+    console.error("Error creating group:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
