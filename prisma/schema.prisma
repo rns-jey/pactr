@@ -15,11 +15,13 @@ datasource db {
 model Group {
   id          Int       @id @default(autoincrement())
   name        String
-  owner       String    @map("user_id")
   code        String    @unique
   codeExpiry  DateTime
 
-  member      Profile?   @relation(fields: [memberId], references: [userId])
+  owner       Profile   @relation("GroupOwner", fields: [ownerId], references: [userId])
+  ownerId     String    @unique
+
+  member      Profile?  @relation("GroupMember", fields: [memberId], references: [userId])
   memberId    String    @unique
 
   createdAt   DateTime  @default(now())
@@ -30,9 +32,10 @@ model Profile {
   id          Int       @id @default(autoincrement())
   userId      String    @unique @map("user_id")
   name        String
-  imageUrl    String?    @db.Text
+  imageUrl    String?   @db.Text
 
-  group       Group?
+  ownedGroup   Group?   @relation("GroupOwner")
+  memberGroup  Group?   @relation("GroupMember")
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
