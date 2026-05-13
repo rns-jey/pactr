@@ -30,7 +30,7 @@ model Profile {
   id          Int       @id @default(autoincrement())
   userId      String    @unique @map("user_id")
   name        String
-  imageUrl    String    @db.Text
+  imageUrl    String?    @db.Text
 
   group       Group?
 
