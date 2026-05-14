@@ -8,6 +8,7 @@ import z from "zod/v3";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 
 interface JoinGroupSectionProps {
   setAction: React.Dispatch<React.SetStateAction<"" | "create" | "join">>;
@@ -75,6 +76,8 @@ export default function JoinGroupSection({ setAction }: JoinGroupSectionProps) {
                     onChange={(value) => field.onChange(value.toUpperCase())}
                     onBlur={field.onBlur}
                     maxLength={6}
+                    pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                    inputMode="text"
                     className="mx-auto"
                   >
                     <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 uppercase *:data-[slot=input-otp-slot]:w-13 *:data-[slot=input-otp-slot]:text-xl">
