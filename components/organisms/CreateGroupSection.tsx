@@ -74,7 +74,6 @@ export default function CreateGroupSection({ setAction }: CreateGroupSectionProp
                     aria-invalid={fieldState.invalid}
                     placeholder="eg. Fitness Buddies, Study Group"
                     autoComplete="off"
-                    className="uppercase"
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
