@@ -6,22 +6,14 @@ export async function userProfile() {
 
   if (!session) return null;
 
-  const profile = await prisma.profile.findUnique({
-    where: {
+  return prisma.profile.upsert({
+    where: { userId: session.user.id },
+    update: {
+      name: session.user.name,
+    },
+    create: {
       userId: session.user.id,
+      name: session.user.name,
     },
   });
-
-  if (profile) {
-    return profile;
-  } else {
-    const newProfile = await prisma.profile.create({
-      data: {
-        userId: session.user.id,
-        name: session.user.name,
-      },
-    });
-
-    return newProfile;
-  }
 }
