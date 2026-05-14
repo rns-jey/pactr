@@ -24,6 +24,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full dark", "antialiased", geistSans.variable, "font-sans", jetbrainsMono.variable)}
+      suppressHydrationWarning
     >
       <body>{children}</body>
     </html>
