@@ -24,9 +24,17 @@ export async function POST(req: Request) {
         const group = await prisma.group.create({
           data: {
             name,
-            ownerId: profile.userId,
+            profileId: profile.userId,
             code,
             codeExpiry,
+            members: {
+              create: [
+                {
+                  profileId: profile.userId,
+                  role: "ADMIN",
+                },
+              ],
+            },
           },
         });
 

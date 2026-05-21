@@ -17,7 +17,7 @@ export default async function MainLayout({
     where: {
       members: {
         some: {
-          profileId: profile.id,
+          profileId: profile.userId,
         },
       },
     },
