@@ -2,6 +2,7 @@ allowBuilds:
   "@prisma/engines": false
   core-js: false
   esbuild: true
+  msgpackr-extract: set this to true or false
   msw: false
   prisma: false
   sharp: true
