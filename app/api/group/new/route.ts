@@ -8,13 +8,11 @@ const generateGroupCode = customAlphabet("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 6);
 
 export async function POST(req: Request) {
   try {
+    const { name } = await req.json();
+
     const profile = await userProfile();
 
     if (!profile) return new NextResponse("Unauthorized", { status: 401 });
-
-    const { name } = await req.json();
-
-    console.log("Received data:", { name });
 
     const codeExpiry = new Date();
     codeExpiry.setDate(codeExpiry.getDate() + 2);
@@ -34,7 +32,10 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ group }, { status: 201 });
       } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        if (
+          error instanceof Prisma.PrismaClientKnownRequestError &&
+          error.code === "P2002"
+        ) {
           continue;
         }
 
@@ -42,7 +43,10 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json({ error: "Failed to create a group." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create a group." },
+      { status: 500 },
+    );
   } catch (error) {
     console.error("Error creating group:", error);
     return new Response("Internal Server Error", { status: 500 });

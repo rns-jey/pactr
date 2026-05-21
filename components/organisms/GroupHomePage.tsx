@@ -11,7 +11,7 @@ interface GroupHomePageProps {
 }
 
 export default function GroupHomePage({ group, profile }: GroupHomePageProps) {
-  const { name, owner, member } = group;
+  const { name, members } = group;
 
   return (
     <main className="p-4">
@@ -23,31 +23,15 @@ export default function GroupHomePage({ group, profile }: GroupHomePageProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
-          <UserCard
-            name={owner.name}
-            isCurrentUser={owner.name === profile.name}
-          />
-
-          {member ? (
+          {members.map((member) => (
             <UserCard
-              name={member.name}
-              isCurrentUser={member.name === profile.name}
+              key={member.id}
+              name={member.profile.name}
+              isCurrentUser={member.profileId === profile.id}
             />
-          ) : (
-            <div className="border-border flex items-center gap-2 rounded-xl border-2 border-dashed p-4">
-              <div className="bg-muted flex h-12 w-12 items-center justify-center rounded-full">
-                <Clock className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="font-medium">Waiting for Partner</p>
-                <p className="text-muted-foreground text-sm">
-                  Share your code below
-                </p>
-              </div>
-            </div>
-          )}
+          ))}
 
-          {!member && group && (
+          {!members && group && (
             <div className="bg-secondary rounded-xl p-6 text-center">
               <p className="text-muted-foreground mb-2 text-xs tracking-wider uppercase">
                 YOUR INVITE CODE

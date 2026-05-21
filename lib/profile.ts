@@ -10,10 +10,12 @@ export async function userProfile() {
     where: { userId: session.user.id },
     update: {
       name: session.user.name,
+      email: session.user.email,
     },
     create: {
       userId: session.user.id,
       name: session.user.name,
+      email: session.user.email,
     },
   });
 }
