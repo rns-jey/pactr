@@ -12,31 +12,56 @@ datasource db {
   provider = "postgresql"
 }
 
+model Profile {
+  id          String    @id @default(uuid())
+  userId      String    @unique @map("user_id")
+  name        String
+  imageUrl    String?   @db.Text
+  email       String    @unique @db.Text
+
+  groups      Group[]
+  members     Member[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model Group {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String
   code        String    @unique
   codeExpiry  DateTime
 
-  owner       Profile   @relation("GroupOwner", fields: [ownerId], references: [userId])
-  ownerId     String    @unique
+  profileId String?
+  profile Profile? @relation(fields: [profileId], references: [userId], onDelete: Cascade)
 
-  member      Profile?  @relation("GroupMember", fields: [memberId], references: [userId])
-  memberId    String?    @unique
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model Profile {
-  id          Int       @id @default(autoincrement())
-  userId      String    @unique @map("user_id")
-  name        String
-  imageUrl    String?   @db.Text
-
-  ownedGroup   Group?   @relation("GroupOwner")
-  memberGroup  Group?   @relation("GroupMember")
+  members     Member[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  @@index([profileId])
 }
+
+enum MemberRole {
+  ADMIN
+  MEMBER
+}
+
+model Member {
+  id String @id @default(uuid())
+  role MemberRole @default(MEMBER)
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+
+  groupId String
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([profileId])
+  @@index([groupId])
+}
+
