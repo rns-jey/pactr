@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { userProfile } from "@/lib/profile";
 import { NextResponse } from "next/server";
 
@@ -10,7 +10,7 @@ export async function PATCH(req: Request) {
 
     const { code } = await req.json();
 
-    const group = await prisma.group.findUnique({
+    const group = await db.group.findUnique({
       where: {
         code: code,
       },
@@ -18,12 +18,12 @@ export async function PATCH(req: Request) {
 
     if (!group) return new NextResponse("Not found", { status: 404 });
 
-    const joinGroup = await prisma.group.update({
+    const joinGroup = await db.group.update({
       where: { code: code },
       data: {
-        memberId: profile.userId,
+        profileId: profile.userId,
       },
-      include: { owner: true, member: true },
+      include: { members: true },
     });
 
     return NextResponse.json(joinGroup);

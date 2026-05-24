@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { customAlphabet } from "nanoid";
 import { Prisma } from "@/lib/generated/prisma/client";
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       const code = generateGroupCode();
 
       try {
-        const group = await prisma.group.create({
+        const group = await db.group.create({
           data: {
             name,
             profileId: profile.userId,

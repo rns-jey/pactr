@@ -32,8 +32,8 @@ model Group {
   code        String    @unique
   codeExpiry  DateTime
 
-  profileId String?
-  profile Profile? @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
 
   members     Member[]
   workOuts     WorkOut[]
