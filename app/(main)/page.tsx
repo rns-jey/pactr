@@ -1,7 +1,7 @@
 import GroupHomePage from "@/components/organisms/GroupHomePage";
 import HomeClient from "@/components/organisms/HomeClient";
 
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { userProfile } from "@/lib/profile";
 import { redirect } from "next/navigation";
 
@@ -12,7 +12,7 @@ export default async function Home() {
     redirect("/sign-in");
   }
 
-  const group = await prisma.group.findFirst({
+  const group = await db.group.findFirst({
     where: {
       members: {
         some: {

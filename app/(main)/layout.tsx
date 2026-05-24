@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { userProfile } from "@/lib/profile";
 import { redirect } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default async function MainLayout({
 
   if (!profile) redirect("/sign-in");
 
-  const group = await prisma.group.findFirst({
+  const group = await db.group.findFirst({
     where: {
       members: {
         some: {
