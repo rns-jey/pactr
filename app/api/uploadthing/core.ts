@@ -1,9 +1,10 @@
+import { db } from "@/lib/db";
+import { userProfile } from "@/lib/profile";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
+import { z } from "zod";
 
 const f = createUploadthing();
-
-const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
@@ -18,25 +19,50 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
+    .input(z.object({ groupId: z.string() }))
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async ({ input }) => {
       // This code runs on your server before upload
-      const user = await auth(req);
+      const user = await userProfile();
 
       // If you throw, the user will not be able to upload
       if (!user) throw new UploadThingError("Unauthorized");
 
+      const member = await db.member.findFirst({
+        where: {
+          profileId: user.userId,
+          groupId: input.groupId,
+        },
+      });
+
+      if (!member)
+        throw new UploadThingError("Must be a member of the group to upload");
+
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id };
+      return { memberId: member.id, groupId: input.groupId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      console.log("Upload complete for userId:", metadata.memberId);
 
       console.log("file url", file.ufsUrl);
 
-      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId };
+      try {
+        const workout = await db.workOut.create({
+          data: {
+            description: "Uploaded workout",
+            imageUrl: file.ufsUrl,
+            memberId: metadata.memberId,
+            groupId: metadata.groupId,
+          },
+        });
+        // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+        console.log("Created workout:", workout);
+        return { uploadedBy: metadata.memberId };
+      } catch (error) {
+        console.error("DB error:", error);
+        throw error;
+      }
     }),
 } satisfies FileRouter;
 
