@@ -1,11 +1,17 @@
 import React from "react";
 import * as z from "zod/v3";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../molecules/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../molecules/Card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "./Field";
 import Input from "../atoms/Input";
 import { Button } from "../atoms/Button";
-import { prisma } from "@/lib/db";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -15,10 +21,15 @@ interface CreateGroupSectionProps {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, "Group name is required.").max(32, "Group name must be at most 32 characters."),
+  name: z
+    .string()
+    .min(1, "Group name is required.")
+    .max(32, "Group name must be at most 32 characters."),
 });
 
-export default function CreateGroupSection({ setAction }: CreateGroupSectionProps) {
+export default function CreateGroupSection({
+  setAction,
+}: CreateGroupSectionProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,15 +86,21 @@ export default function CreateGroupSection({ setAction }: CreateGroupSectionProp
                     placeholder="eg. Fitness Buddies, Study Group"
                     autoComplete="off"
                   />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />
           </FieldGroup>
         </form>
       </CardContent>
-      <CardFooter className="flex gap-2 relative">
-        <Button variant={"outline"} className="flex-1" onClick={() => setAction("")}>
+      <CardFooter className="relative flex gap-2">
+        <Button
+          variant={"outline"}
+          className="flex-1"
+          onClick={() => setAction("")}
+        >
           Back
         </Button>
         <Button className="flex-1" type="submit" form="form-create-group">
