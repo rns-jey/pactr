@@ -3,12 +3,14 @@
 import { Card, CardContent } from "./Card";
 import { cn, UploadButton } from "@/lib/utils";
 import { Camera } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface UploadCardProps {
   groupId: string;
 }
 
 export default function UploadCard({ groupId }: UploadCardProps) {
+  const router = useRouter();
   return (
     <Card>
       <CardContent>
@@ -36,7 +38,7 @@ export default function UploadCard({ groupId }: UploadCardProps) {
           onClientUploadComplete={(res) => {
             // Do something with the response
             console.log("Files: ", res[0].ufsUrl);
-            alert("Upload Completed");
+            router.refresh();
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
