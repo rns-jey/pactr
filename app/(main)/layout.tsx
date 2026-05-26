@@ -6,6 +6,8 @@ import AppHeader from "@/components/organisms/AppHeader";
 
 import Providers from "@/components/providers/Providers";
 
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
+
 export default async function MainLayout({
   children,
 }: {
@@ -31,11 +33,13 @@ export default async function MainLayout({
   });
 
   return (
-    <Providers profile={profile} group={group}>
-      <div className="flex min-h-screen flex-col">
-        {profile && group && <AppHeader />}
-        {children}
-      </div>
-    </Providers>
+    <ReactQueryProvider>
+      <Providers profile={profile} group={group}>
+        <div className="flex min-h-screen flex-col">
+          {profile && group && <AppHeader />}
+          {children}
+        </div>
+      </Providers>
+    </ReactQueryProvider>
   );
 }
