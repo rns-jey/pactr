@@ -4,16 +4,17 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { groupId: string } },
+  { params }: { params: Promise<{ groupId: string }> },
 ) {
   try {
     const profile = await userProfile();
+    const { groupId } = await params;
 
     if (!profile) return new NextResponse("Unauthorized", { status: 401 });
 
     const workouts = await db.workOut.findMany({
       where: {
-        groupId: params.groupId,
+        groupId: groupId,
       },
       include: {
         member: {
