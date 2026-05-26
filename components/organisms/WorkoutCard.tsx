@@ -28,7 +28,15 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <Image src={workout.imageUrl} alt="Workout" width={400} height={300} />
+        <div className="relative h-96 w-full">
+          <Image
+            src={workout.imageUrl}
+            alt="Workout"
+            width={400}
+            height={300}
+            className="h-full w-full rounded-md object-cover"
+          />
+        </div>
       </CardContent>
       <CardFooter className="flex items-center gap-4">
         <div className="flex items-center gap-1">
