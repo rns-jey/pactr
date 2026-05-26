@@ -3,7 +3,10 @@ import { Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,7 +15,8 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: "Pactr",
-  description: "Accountability for groups",
+  description:
+    "An accountability app where two people help each other stay on track.",
 };
 
 export default function RootLayout({
@@ -23,7 +27,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full dark", "antialiased", geistSans.variable, "font-sans", jetbrainsMono.variable)}
+      className={cn(
+        "dark h-full",
+        "antialiased",
+        geistSans.variable,
+        "font-sans",
+        jetbrainsMono.variable,
+      )}
       suppressHydrationWarning
     >
       <body>{children}</body>
