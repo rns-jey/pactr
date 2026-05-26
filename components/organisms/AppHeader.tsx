@@ -11,18 +11,20 @@ export default function AppHeader() {
   };
 
   return (
-    <header className="border-b sticky top-0 z-10">
+    <header className="bg-background/95 sticky top-0 z-10 border-b">
       <nav className="flex items-center justify-between p-4">
         <div className="flex items-center gap-2">
-          <UsersIcon className="w-10 h-10" />
+          <UsersIcon className="h-10 w-10" />
           <div>
             <h1 className="font-bold">Pactr</h1>
-            <p className="text-xs text-muted-foreground">Accountability for groups</p>
+            <p className="text-muted-foreground text-xs">
+              Accountability for groups
+            </p>
           </div>
         </div>
 
         <Button variant={"ghost"} size={"sm"} onClick={handleSignOut}>
-          <LogOut className="w-4 h-4 mr-2" />
+          <LogOut className="mr-2 h-4 w-4" />
           Sign out
         </Button>
       </nav>
