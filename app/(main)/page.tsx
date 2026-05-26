@@ -1,5 +1,6 @@
 "use client";
 
+import PullToRefresh from "@/components/hooks/PullToRefresh";
 import GroupHomePage from "@/components/organisms/GroupHomePage";
 import HomeClient from "@/components/organisms/HomeClient";
 import { useGroup } from "@/components/providers/GroupProvider";
@@ -10,7 +11,11 @@ export default function Home() {
   const profile = useUserProfile();
 
   if (group) {
-    return <GroupHomePage group={group} profile={profile} />;
+    return (
+      <PullToRefresh>
+        <GroupHomePage group={group} profile={profile} />
+      </PullToRefresh>
+    );
   } else {
     return <HomeClient profile={profile} />;
   }
