@@ -7,3 +7,13 @@ export type GroupWithUsers = Prisma.GroupGetPayload<{
     };
   };
 }>;
+
+export type WorkoutWithMember = Prisma.WorkOutGetPayload<{
+  include: {
+    member: {
+      include: {
+        profile: true;
+      };
+    };
+  };
+}>;
