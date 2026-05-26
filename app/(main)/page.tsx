@@ -1,29 +1,13 @@
+"use client";
+
 import GroupHomePage from "@/components/organisms/GroupHomePage";
 import HomeClient from "@/components/organisms/HomeClient";
+import { useGroup } from "@/components/providers/GroupProvider";
+import { useUserProfile } from "@/components/providers/UserProfileProvider";
 
-import { db } from "@/lib/db";
-import { userProfile } from "@/lib/profile";
-import { redirect } from "next/navigation";
-
-export default async function Home() {
-  const profile = await userProfile();
-
-  if (!profile) redirect("/sign-in");
-
-  const group = await db.group.findFirst({
-    where: {
-      members: {
-        some: {
-          profileId: profile.userId,
-        },
-      },
-    },
-    include: {
-      members: {
-        include: { profile: true },
-      },
-    },
-  });
+export default function Home() {
+  const group = useGroup();
+  const profile = useUserProfile();
 
   if (group) {
     return <GroupHomePage group={group} profile={profile} />;

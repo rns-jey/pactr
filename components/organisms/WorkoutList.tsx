@@ -1,34 +1,24 @@
-import { db } from "@/lib/db";
-
-import { userProfile } from "@/lib/profile";
-import { redirect } from "next/navigation";
-
 import WorkoutCard from "./WorkoutCard";
+import { WorkoutWithMember } from "@/types";
+
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 interface UploadCardProps {
   groupId: string;
 }
 
-export default async function WorkoutList({ groupId }: UploadCardProps) {
-  const profile = await userProfile();
+export default function WorkoutList({ groupId }: UploadCardProps) {
+  const { data: workouts } = useQuery<WorkoutWithMember[]>({
+    queryKey: ["workouts"],
+    queryFn: async () => {
+      const response = await axios.get(`/api/workouts/${groupId}`);
 
-  if (!profile) redirect("/sign-in");
-
-  const workouts = await db.workOut.findMany({
-    where: {
-      groupId: groupId,
-    },
-    include: {
-      member: {
-        include: {
-          profile: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
+      return response.data;
     },
   });
+
+  if (!workouts) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col gap-4">
