@@ -10,6 +10,7 @@ import { Heart, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import { userProfile } from "@/lib/profile";
 import { redirect } from "next/navigation";
+import { timeAgo } from "@/lib/utils";
 
 interface UploadCardProps {
   groupId: string;
@@ -45,7 +46,7 @@ export default async function WorkoutList({ groupId }: UploadCardProps) {
               <User className="bg-muted h-8 w-8 rounded-full" />
               <CardTitle className="text-sm">
                 <p>{workout.member.profile.name}</p>
-                <p>Just Now</p>
+                <p>{timeAgo(workout.createdAt)}</p>
               </CardTitle>
             </div>
           </CardHeader>
