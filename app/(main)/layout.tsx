@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 
 import AppHeader from "@/components/organisms/AppHeader";
 
+import Providers from "@/components/providers/Providers";
+
 export default async function MainLayout({
   children,
 }: {
@@ -29,9 +31,11 @@ export default async function MainLayout({
   });
 
   return (
-    <div className="flex min-h-full flex-col">
-      {profile && group && <AppHeader />}
-      {children}
-    </div>
+    <Providers profile={profile} group={group}>
+      <div className="flex min-h-screen flex-col">
+        {profile && group && <AppHeader />}
+        {children}
+      </div>
+    </Providers>
   );
 }

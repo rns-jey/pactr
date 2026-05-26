@@ -8,9 +8,7 @@ import { redirect } from "next/navigation";
 export default async function Home() {
   const profile = await userProfile();
 
-  if (!profile) {
-    redirect("/sign-in");
-  }
+  if (!profile) redirect("/sign-in");
 
   const group = await db.group.findFirst({
     where: {
