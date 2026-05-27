@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { extractRouterConfig } from "uploadthing/server";
+import PullToRefresh from "@/components/hooks/PullToRefresh";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -41,7 +42,7 @@ export default function RootLayout({
     >
       <body>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        {children}
+        <PullToRefresh>{children}</PullToRefresh>
       </body>
     </html>
   );

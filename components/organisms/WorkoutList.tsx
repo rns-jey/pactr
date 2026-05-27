@@ -3,15 +3,8 @@ import { WorkoutWithMember } from "@/types";
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../molecules/Card";
-import { Heart, MessageCircle, User } from "lucide-react";
-import Image from "next/image";
+import { Card, CardContent, CardHeader, CardTitle } from "../molecules/Card";
+
 import { Skeleton } from "../molecules/Skeleton";
 
 interface UploadCardProps {
