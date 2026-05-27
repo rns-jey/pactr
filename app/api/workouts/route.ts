@@ -2,15 +2,17 @@ import { db } from "@/lib/db";
 import { userProfile } from "@/lib/profile";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ groupId: string }> },
-) {
+export async function GET(req: Request) {
   try {
     const profile = await userProfile();
-    const { groupId } = await params;
 
     if (!profile) return new NextResponse("Unauthorized", { status: 401 });
+
+    const { searchParams } = new URL(req.url);
+    const groupId = searchParams.get("groupId");
+
+    if (!groupId)
+      return new NextResponse("Group ID is required", { status: 400 });
 
     const workouts = await db.workOut.findMany({
       where: {

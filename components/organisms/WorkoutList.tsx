@@ -12,10 +12,15 @@ export default function WorkoutList({ groupId }: UploadCardProps) {
   const { data: workouts } = useQuery<WorkoutWithMember[]>({
     queryKey: ["workouts"],
     queryFn: async () => {
-      const response = await axios.get(`/api/workouts/${groupId}`);
+      const response = await axios.get(`/api/workouts`, {
+        params: {
+          groupId,
+        },
+      });
 
       return response.data;
     },
+    staleTime: 0,
   });
 
   if (!workouts) return <div>Loading...</div>;
