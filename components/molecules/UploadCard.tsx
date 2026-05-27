@@ -1,11 +1,10 @@
 "use client";
 
-import { WorkoutWithMember } from "@/types";
 import { Card, CardContent } from "./Card";
 import { cn, UploadButton } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { Camera } from "lucide-react";
-import { useRouter } from "next/navigation";
+
 import axios from "axios";
 
 interface UploadCardProps {
@@ -13,7 +12,6 @@ interface UploadCardProps {
 }
 
 export default function UploadCard({ groupId }: UploadCardProps) {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   return (

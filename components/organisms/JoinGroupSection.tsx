@@ -1,8 +1,20 @@
 import React from "react";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/molecules/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/molecules/Card";
 import { Field, FieldGroup, FieldLabel } from "@/components/organisms/Field";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/molecules/InputOtp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/molecules/InputOtp";
 import { Button } from "@/components/atoms/Button";
 import z from "zod/v3";
 import { Controller, useForm } from "react-hook-form";
@@ -37,12 +49,14 @@ export default function JoinGroupSection({ setAction }: JoinGroupSectionProps) {
         },
         body: JSON.stringify(data),
       });
-      const contentType = res.headers.get("content-type");
-      const responseData = contentType?.includes("application/json") ? await res.json() : null;
+
+      // const contentType = res.headers.get("content-type");
+      // const responseData = contentType?.includes("application/json") ? await res.json() : null;
+
       if (!res.ok) {
         throw new Error("Failed to join group");
       }
-      console.log("Group created:", responseData);
+
       // Optionally reset the form or provide feedback to the user here
       form.reset();
       router.refresh();
@@ -59,7 +73,9 @@ export default function JoinGroupSection({ setAction }: JoinGroupSectionProps) {
     <Card className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>Join a Group</CardTitle>
-        <CardDescription>Enter the code provided by your accountability partner.</CardDescription>
+        <CardDescription>
+          Enter the code provided by your accountability partner.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form id="form-join-group" onSubmit={form.handleSubmit(onSubmit)}>
@@ -80,13 +96,13 @@ export default function JoinGroupSection({ setAction }: JoinGroupSectionProps) {
                     inputMode="text"
                     className="mx-auto"
                   >
-                    <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 uppercase *:data-[slot=input-otp-slot]:w-13 *:data-[slot=input-otp-slot]:text-xl">
+                    <InputOTPGroup className="uppercase *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-13 *:data-[slot=input-otp-slot]:text-xl">
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
                       <InputOTPSlot index={2} />
                     </InputOTPGroup>
                     <InputOTPSeparator className="mx-2" />
-                    <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 uppercase *:data-[slot=input-otp-slot]:w-13 *:data-[slot=input-otp-slot]:text-xl">
+                    <InputOTPGroup className="uppercase *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-13 *:data-[slot=input-otp-slot]:text-xl">
                       <InputOTPSlot index={3} />
                       <InputOTPSlot index={4} />
                       <InputOTPSlot index={5} />
@@ -99,7 +115,12 @@ export default function JoinGroupSection({ setAction }: JoinGroupSectionProps) {
         </form>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button type="button" variant={"outline"} className="flex-1" onClick={() => setAction("")}>
+        <Button
+          type="button"
+          variant={"outline"}
+          className="flex-1"
+          onClick={() => setAction("")}
+        >
           Back
         </Button>
         <Button className="flex-1" type="submit" form="form-join-group">
