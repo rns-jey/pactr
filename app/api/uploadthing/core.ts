@@ -43,26 +43,11 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.memberId);
-
+      console.log("Upload complete for memberId:", metadata.memberId);
       console.log("file url", file.ufsUrl);
 
-      try {
-        const workout = await db.workOut.create({
-          data: {
-            description: "Uploaded workout",
-            imageUrl: file.ufsUrl,
-            memberId: metadata.memberId,
-            groupId: metadata.groupId,
-          },
-        });
-        // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-        console.log("Created workout:", workout);
-        return { uploadedBy: metadata.memberId };
-      } catch (error) {
-        console.error("DB error:", error);
-        throw error;
-      }
+      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      return { uploadedBy: metadata.memberId };
     }),
 } satisfies FileRouter;
 
