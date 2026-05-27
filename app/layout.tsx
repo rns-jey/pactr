@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { ourFileRouter } from "./api/uploadthing/core";
+import { extractRouterConfig } from "uploadthing/server";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -36,7 +39,10 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+        {children}
+      </body>
     </html>
   );
 }
