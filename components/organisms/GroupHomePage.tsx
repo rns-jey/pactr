@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../molecules/Tabs";
 
 import UploadCard from "../molecules/UploadCard";
 import WorkoutList from "./WorkoutList";
+import WorkoutStreakCard from "./WorkoutStreakCard";
 
 interface GroupHomePageProps {
   group: GroupWithUsers;
@@ -26,6 +27,8 @@ export default function GroupHomePage({ group, profile }: GroupHomePageProps) {
         </TabsList>
         <TabsContent value="workout" className="mt-4 flex flex-col gap-4">
           <UploadCard groupId={group.id} />
+
+          <WorkoutStreakCard />
 
           <WorkoutList groupId={group.id} />
         </TabsContent>
